@@ -28,7 +28,7 @@ public class Item {
                 String qty = "qty: " + rs.getInt("gty_in_stock");
                 String price = "price: " + rs.getFloat("price");
 
-                System.out.println(id + " " + name + " " + desc + " " + qty + " " + price + " ");
+                System.out.println(id + " " + name + " " + desc + " " + qty + " " + price);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -91,6 +91,52 @@ public class Item {
             return false;
         }
     }
+
+    // Implement two methods:
+    // The first method should be called deleteItem() and it should prompt the user
+    // to enter the id of the item to be deleted, return a boolean if the operation is successful.
+
+    public static boolean deleteItem() {
+        // Prompt the user for info
+        System.out.println("Enter the items id, what you want to delete: ");
+        int id = scanner.nextInt();
+
+        try {
+            ps = connection.prepareStatement("DELETE FROM items WHERE id = " + id + ";");
+            ps.execute();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // The second method should be called getItemById() and it should prompt the user
+    // to also the id of the item in question.
+
+    public static void getItemById() {
+        // Prompt the user for info
+        System.out.println("Enter the items id, what you want to display: ");
+        int id = scanner.nextInt();
+
+        try {
+            ps = connection.prepareStatement("SELECT * FROM items WHERE id = " + id + "");
+            rs = ps.executeQuery();
+
+            // now we loop through the result set
+            while (rs.next()) {
+                String name = "name: " + rs.getString("name");
+                String desc = "desc: " + rs.getString("description");
+                String qty = "qty: " + rs.getInt("gty_in_stock");
+                String price = "price: " + rs.getFloat("price");
+
+                System.out.println(id + " " + name + " " + desc + " " + qty + " " + price);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
 }
