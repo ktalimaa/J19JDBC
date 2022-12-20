@@ -14,6 +14,22 @@ public class Item {
     static ResultSet rs;
     static Scanner scanner = new Scanner(System.in);
 
+    // duplicating similar table like in customers?
+    public static void createItemsTable() {
+        try {
+            ps = connection.prepareStatement("CREATE TABLE IF NOT EXISTS items(" +
+                    "    id serial PRIMARY KEY," +
+                    "    name varchar(255) NOT NULL," +
+                    "    description varchar(255) NOT NULL," +
+                    "    gty_in_stock int," +
+                    "    price float)");
+            ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     public static void getAllItems() {
 
         try {
@@ -136,7 +152,6 @@ public class Item {
             e.printStackTrace();
         }
     }
-
 
 
 }
