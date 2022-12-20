@@ -26,7 +26,6 @@ public class Customer {
                             "last_name varchar(255), " +
                             "email varchar(255), " +
                             " PRIMARY KEY(id))");
-
             ps.execute();
             return true;
         } catch (SQLException e) {
@@ -53,6 +52,4 @@ public class Customer {
             e.printStackTrace();
         }
     }
-
-
 }

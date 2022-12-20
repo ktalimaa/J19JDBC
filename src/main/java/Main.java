@@ -27,8 +27,13 @@ public class Main {
         Item.createItemsTable();
         // subsequent objects will have their create table methods here
         Menu.mainMenu();
-
     }
+
+    // Add two features to this application that allows user
+    // to view all the orders and all the sales.
+
+
+
 }
 
 
