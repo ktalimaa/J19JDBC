@@ -74,7 +74,9 @@ public class Menu {
     public static void customerMenu() {
         System.out.println("Pick a submenu to continue: ");
         System.out.println("1. Get All Customers");
-        // System.out.println("2. Create New Customer");
+        System.out.println("2. Create New Customer");
+        System.out.println("3. Update Customer");
+        System.out.println("4. Delete Customer");
 
         System.out.println("-----------------");
         System.out.println("Select an option or enter 0 to go back to main menu: ");
@@ -88,10 +90,18 @@ public class Menu {
                 Customer.getAllCustomers();
                 customerMenu();
                 break;
-            //case 2:
-            //Item.createNewItem();
-            //itemsMenu();
-            //break;
+            case 2:
+                Customer.createNewCustomer();
+                customerMenu();
+                break;
+            case 3:
+                Customer.updateCustomer();
+                customerMenu();
+                break;
+            case 4:
+                Customer.deleteCustomer();
+                customerMenu();
+                break;
             default:
                 System.out.println("Invalid option!");
                 customerMenu();

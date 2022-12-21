@@ -48,4 +48,78 @@ public class Sales {
             e.printStackTrace();
         }
     }
+
+   /*
+
+    public static boolean createNewSale() {
+        // Add prompts to tell the user what data they need to enter next
+        System.out.println("Enter the customer first name: ");
+        String fName = scanner.nextLine();
+
+        System.out.println("Enter the customer last name: ");
+        String lName = scanner.nextLine();
+
+        System.out.println("Enter the customer email: ");
+        String email = scanner.nextLine();
+
+        try {
+
+            ps = connection.prepareStatement("INSERT INTO customer(first_name, last_name, email)" +
+                    "VALUES('" + fName + "', '" + lName + "', '" + email + "')");
+            ps.execute();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean updateSale() {
+        // Prompt the user for info
+        System.out.println("Possible fields to update: first_name, last_name, email");
+
+        System.out.print("Enter the field name you would like to update: ");
+        String fieldName = scanner.nextLine();
+
+        System.out.println("Enter the value for the field: ");
+        String fieldValue = scanner.nextLine();
+
+        System.out.println("Enter the customers id: ");
+        int id = scanner.nextInt();
+
+        if (!fieldName.equals("first_name") || !fieldName.equals("last_name") || !fieldName.equals("email")) {
+            System.out.println("Invalid field name!");
+            updateSale();
+        }
+
+        try {
+            ps = connection.prepareStatement("UPDATE customer SET " +
+                    fieldName + " = '" + fieldValue + "', " + "WHERE id = " + id);
+            ps.execute();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static void deleteSale() {
+        System.out.println("Enter the id of the customer to delete: ");
+        int id = scanner.nextInt();
+
+        try {
+            ps = connection.prepareStatement("DELETE FORM sales WHERE customer_id = " + id);
+            ps.execute();
+
+            ps = connection.prepareStatement("DELETE FROM customer WHERE id = " + id);
+            ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    */
+
+
 }

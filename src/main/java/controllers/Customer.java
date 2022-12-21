@@ -1,6 +1,7 @@
 package controllers;
 
 import db.Database;
+import org.postgresql.util.OSUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,8 +16,10 @@ public class Customer {
     static ResultSet rs;
     static Scanner scanner = new Scanner(System.in);
 
-    // Create a table dor the class above if and only if it doesn't already exist.
+    // CRUD - CREATE, READ, UPDATE, DELETE
 
+
+    // Create a table dor the class above if and only if it doesn't already exist.
     public static boolean createCustomerTable() {
         try {       // "IF NOT EXISTS" only then create table!
             ps = connection.prepareStatement(
@@ -25,7 +28,7 @@ public class Customer {
                             "first_name varchar(255)," +
                             "last_name varchar(255), " +
                             "email varchar(255), " +
-                            " PRIMARY KEY(id))");
+                            "PRIMARY KEY(id))");
             ps.execute();
             return true;
         } catch (SQLException e) {
@@ -34,6 +37,7 @@ public class Customer {
         }
     }
 
+    // READ
     public static void getAllCustomers() {
 
         try {
@@ -52,4 +56,76 @@ public class Customer {
             e.printStackTrace();
         }
     }
+
+    // Complete the Customer class by adding the CREATE, UPDATE and DELETE functionalities
+    // to handle those respective operations on a customer objects or record.
+
+    public static boolean createNewCustomer() {
+        // Add prompts to tell the user what data they need to enter next
+        System.out.println("Enter the customer first name: ");
+        String fName = scanner.nextLine();
+
+        System.out.println("Enter the customer last name: ");
+        String lName = scanner.nextLine();
+
+        System.out.println("Enter the customer email: ");
+        String email = scanner.nextLine();
+
+        try {
+
+            ps = connection.prepareStatement("INSERT INTO customer(first_name, last_name, email)" +
+                    "VALUES('" + fName + "', '" + lName + "', '" + email + "')");
+            ps.execute();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean updateCustomer() {
+        // Prompt the user for info
+        System.out.println("Possible fields to update: first_name, last_name, email");
+
+        System.out.print("Enter the field name you would like to update: ");
+        String fieldName = scanner.nextLine();
+
+        System.out.println("Enter the value for the field: ");
+        String fieldValue = scanner.nextLine();
+
+        System.out.println("Enter the customers id: ");
+        int id = scanner.nextInt();
+
+        if (!fieldName.equals("first_name") || !fieldName.equals("last_name") || !fieldName.equals("email")) {
+            System.out.println("Invalid field name!");
+            updateCustomer();
+        }
+
+        try {
+            ps = connection.prepareStatement("UPDATE customer SET " +
+                    fieldName + " = '" + fieldValue + "', " + "WHERE id = " + id);
+            ps.execute();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static void deleteCustomer() {
+        System.out.println("Enter the id of the customer to delete: ");
+        int id = scanner.nextInt();
+
+        try {
+            ps = connection.prepareStatement("DELETE FROM sales WHERE customer_id = " + id);
+            ps.execute();
+
+            ps = connection.prepareStatement("DELETE FROM customer WHERE id = " + id);
+            ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

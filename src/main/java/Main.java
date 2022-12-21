@@ -2,8 +2,6 @@ import controllers.Customer;
 import controllers.Item;
 import controllers.menu.Menu;
 
-import static controllers.Item.*;
-
 public class Main {
     public static void main(String[] args) {
 
@@ -23,8 +21,14 @@ public class Main {
 
 
         Customer.createCustomerTable();     // checking if the table is created, primary check
-        //Customer.getAllCustomers();
+        // Customer.getAllCustomers();
+        // System.out.println();
         Item.createItemsTable();
+        // System.out.println();
+        // Orders.getAllOrders();
+        // System.out.println();
+        // Sales.getAllSales();
+        // System.out.println();
         // subsequent objects will have their create table methods here
         Menu.mainMenu();
     }
