@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Sales {
@@ -49,77 +51,79 @@ public class Sales {
         }
     }
 
-   /*
+    // CREATE a method on the Sales class that takes in following input from the user:
+    // item_id
+    // qty_purchased
 
-    public static boolean createNewSale() {
-        // Add prompts to tell the user what data they need to enter next
-        System.out.println("Enter the customer first name: ");
-        String fName = scanner.nextLine();
+    // we need loop, what says how many items we want to buy
+    // if we get this qty info, it goes to total
+    // orders are the part of the sale.
 
-        System.out.println("Enter the customer last name: ");
-        String lName = scanner.nextLine();
+    public static Map<Integer, Float> handleItemTotal() {
+        // Prompt
+        System.out.println("Enter how many items were bought: ");
+        int numberOfItems = scanner.nextInt();
 
-        System.out.println("Enter the customer email: ");
-        String email = scanner.nextLine();
+        // Map will hold the values of item_id and qty_purchased
+        Map<Integer, Float> items = new HashMap<>();
+        float itemTotal = 0;
+        // We want to store each values
 
-        try {
+        for (int i = 0; i < numberOfItems; i++) {
+            // first we need to reach into items table, price
+            // Use the connection to get the by the id (SELECT) after you pass it into the map
+            System.out.print("Enter the item id: ");
+            int itemId = scanner.nextInt();
 
-            ps = connection.prepareStatement("INSERT INTO customer(first_name, last_name, email)" +
-                    "VALUES('" + fName + "', '" + lName + "', '" + email + "')");
-            ps.execute();
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            System.out.println("Enter the quantity purchased: ");
+            int qty = scanner.nextInt();
+
+            // loop into items table and find out the price of the item
+
+            float itemPrice = 0;
+
+            try {
+                ps = connection.prepareStatement("SELECT price FROM items WHERE id = " + itemId);
+                rs = ps.executeQuery();
+
+                while (rs.next()) {
+                    itemPrice = rs.getFloat("price");
+                }
+                itemTotal = itemPrice * qty;
+                items.putIfAbsent(itemId, itemTotal);
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+        //  System.out.println(items);
+        return items;
     }
 
-    public static boolean updateSale() {
-        // Prompt the user for info
-        System.out.println("Possible fields to update: first_name, last_name, email");
+    // Exercise: Complete Sales class by adding following methods:
+    // Add a method called createNewSale:       (it has id, customer id, date prc, total?)
+    // - collate the total price of all the items bought using the handleItemsTotal method
+    // and log the total to the console.
 
-        System.out.print("Enter the field name you would like to update: ");
-        String fieldName = scanner.nextLine();
 
-        System.out.println("Enter the value for the field: ");
-        String fieldValue = scanner.nextLine();
+    // call handleItemsTotal()  in the createNewSale()
+    // use this map to collate
+    // instead storing itemId, we store saleId
 
-        System.out.println("Enter the customers id: ");
-        int id = scanner.nextInt();
+    // public static Map<Integer, Float> exercise() {
+    // call this same method to complete this transaction. loop through the hashmap
+    // return (items);
 
-        if (!fieldName.equals("first_name") || !fieldName.equals("last_name") || !fieldName.equals("email")) {
-            System.out.println("Invalid field name!");
-            updateSale();
-        }
+    public static void createNewSale() {
+        System.out.println("Possible items are: 2, 3, 4, 5.");
+        System.out.println("Enter the item id what you would like to buy: ");
 
-        try {
-            ps = connection.prepareStatement("UPDATE customer SET " +
-                    fieldName + " = '" + fieldValue + "', " + "WHERE id = " + id);
-            ps.execute();
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
+        System.out.println("Enter the quantity of the product you would like to buy: ");
+        int qty = scanner.nextInt();
+
+        System.out.println();
+
+
     }
-
-    public static void deleteSale() {
-        System.out.println("Enter the id of the customer to delete: ");
-        int id = scanner.nextInt();
-
-        try {
-            ps = connection.prepareStatement("DELETE FORM sales WHERE customer_id = " + id);
-            ps.execute();
-
-            ps = connection.prepareStatement("DELETE FROM customer WHERE id = " + id);
-            ps.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    */
-
 
 }
