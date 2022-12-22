@@ -112,7 +112,7 @@ public class Menu {
     public static void ordersMenu() {
         System.out.println("Pick a submenu to continue: ");
         System.out.println("1. Get All Orders");
-        // System.out.println("2. Create New Order");
+        //System.out.println("2. Create New Order");
 
         System.out.println("-----------------");
         System.out.println("Select an option or enter 0 to go back to main menu: ");
@@ -135,8 +135,8 @@ public class Menu {
 
     public static void salesMenu() {
         System.out.println("Pick a submenu to continue: ");
-        System.out.println("1. Get Item Total");
-        // System.out.println("2. Create New Sale");
+        System.out.println("1. Get Sales Total");
+        System.out.println("2. Create New Sales and Orders");
 
         System.out.println("-----------------");
         System.out.println("Select an option or enter 0 to go back to main menu: ");
@@ -147,13 +147,16 @@ public class Menu {
                 mainMenu();
                 break;
             case 1:
-                Sales.handleItemTotal();
+                Sales.getAllSales();
+                salesMenu();
+                break;
+            case 2:
+                Sales.createSaleAndOrder();
                 salesMenu();
                 break;
             default:
                 System.out.println("Invalid option!");
                 salesMenu();
-                break;
         }
     }
 }

@@ -39,11 +39,11 @@ public class Orders {
             rs = ps.executeQuery();
 
             while (rs.next()) {
-                int saleId = Integer.parseInt("sale_id: " + rs.getInt("sale_id"));
-                int itemId = Integer.parseInt("item_id: " + rs.getString("item_id"));
-                int qtyPurchased = Integer.parseInt("qty_purchased: " + rs.getString("qty_purchased"));
-                int itemTotal = Integer.parseInt("item_total: " + rs.getInt("item_total"));
-                System.out.println(saleId + ", " + itemId + ", " + qtyPurchased + ", " + itemTotal);
+                String saleId = "sale_id: " + rs.getInt("sale_id");
+                String itemId = "item_id: " + rs.getString("item_id");
+                String qty = "qty_purchased: " + rs. getString("qty_purchased");
+                String itemTotal = "item_total: " + rs.getInt("item_total");
+                System.out.println(saleId + ", " + itemId + ", " + qty + ", " + itemTotal);
             }
         } catch (SQLException e) {
             e.printStackTrace();

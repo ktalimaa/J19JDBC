@@ -1,14 +1,13 @@
 package controllers;
 
 import db.Database;
+import objects.OrderObj;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Sales {
     static Connection connection = Database.DbConn();
@@ -36,15 +35,18 @@ public class Sales {
     public static void getAllSales() {
 
         try {
-            ps = connection.prepareStatement("SELECT * FROM sales");
+            ps = connection.prepareStatement("SELECT sales.*, customer.first_name, customer.last_name FROM sales LEFT JOIN customer ON sales.customer_id = customer.id");
             rs = ps.executeQuery();
 
+            // Loop through the result set
             while (rs.next()) {
                 String id = "id: " + rs.getInt("id");
-                int customerId = Integer.parseInt("customer_id: " + rs.getString("customer_id"));
-                int timestamp = Integer.parseInt("timestamp: " + rs.getString("timestamp"));
-                float total = Integer.parseInt("total: " + rs.getInt("total"));
-                System.out.println(id + ", " + customerId + ", " + timestamp + ", " + total);
+                String custId = "customer_id: " + rs.getInt("customer_id");
+                String datePurchased = "date_purchased: " + rs.getTimestamp("date_purchased");
+                String total = "total: " + rs.getFloat("total");
+                String firstName = "fist_name: " + rs.getString("first_name");
+                String lastName = "last_name: " + rs.getString("last_name");
+                System.out.println(id + ", " + custId + ", " + total + ", " + firstName + ", " + lastName + ", " + datePurchased);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -59,13 +61,14 @@ public class Sales {
     // if we get this qty info, it goes to total
     // orders are the part of the sale.
 
-    public static Map<Integer, Float> handleItemTotal() {
+    private static List<OrderObj> handleItemTotal() {
         // Prompt
         System.out.println("Enter how many items were bought: ");
         int numberOfItems = scanner.nextInt();
 
         // Map will hold the values of item_id and qty_purchased
-        Map<Integer, Float> items = new HashMap<>();
+        // Map<Integer, Float> items = new HashMap<>();
+        List<OrderObj> itemsPurchased = new ArrayList<>();
         float itemTotal = 0;
         // We want to store each values
 
@@ -90,40 +93,65 @@ public class Sales {
                     itemPrice = rs.getFloat("price");
                 }
                 itemTotal = itemPrice * qty;
-                items.putIfAbsent(itemId, itemTotal);
+                //items.putIfAbsent(itemId, itemTotal);
+                itemsPurchased.add(new OrderObj(itemId, qty, itemTotal));
 
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
         //  System.out.println(items);
-        return items;
+        return itemsPurchased;
     }
 
+    private static float collateOrderTotal(List<OrderObj> orders) {
+        float sum = 0;
+        for (OrderObj order : orders) {
+            sum += order.getTotalOnItem();
+        }
+        return sum;
+    }
+
+
     // Exercise: Complete Sales class by adding following methods:
-    // Add a method called createNewSale:       (it has id, customer id, date prc, total?)
+    // Add a method called createNewSale:
     // - collate the total price of all the items bought using the handleItemsTotal method
     // and log the total to the console.
 
+    public static void createSaleAndOrder() {
+        // Prompt the user for the customer id
+        System.out.println("Enter the customer id: ");
+        int custId = scanner.nextInt();
 
-    // call handleItemsTotal()  in the createNewSale()
-    // use this map to collate
-    // instead storing itemId, we store saleId
+        // Get the items purchased
+        List<OrderObj> itemsPurchased = handleItemTotal();
 
-    // public static Map<Integer, Float> exercise() {
-    // call this same method to complete this transaction. loop through the hashmap
-    // return (items);
+        // Get the total on the items
+        float totalSale = collateOrderTotal(itemsPurchased);
 
-    public static void createNewSale() {
-        System.out.println("Possible items are: 2, 3, 4, 5.");
-        System.out.println("Enter the item id what you would like to buy: ");
-
-        System.out.println("Enter the quantity of the product you would like to buy: ");
-        int qty = scanner.nextInt();
-
-        System.out.println();
+        int saleId = 0;
 
 
+        try {
+            ps = connection.prepareStatement("INSERT INTO sales(customer_id, date_purchased, total)" +
+                    "VALUES(" + custId + ", current_timestamp, " + totalSale + ") RETURNING id");        // needs salesId
+            rs = ps.executeQuery();
+
+            // Loop through the result set until empty
+            while (rs.next()) {
+                saleId = rs.getInt("id");
+                // For each sale (later maybe multiple sales), use the id to create the orders.
+                for (OrderObj orders : itemsPurchased) {      // another loop for orders (items purchased)
+                    ps = connection.prepareStatement("INSERT INTO orders(sale_id, item_id, qty_purchased, item_total)" +
+                            "VALUES(" + saleId + ", " + orders.getItemId() + ", " + orders.getQty_purchased() + ", " + orders.getTotalOnItem() + ")");
+                    ps.execute();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
+
+
 
 }
