@@ -1,7 +1,6 @@
 package controllers;
 
 import db.Database;
-import org.postgresql.util.OSUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

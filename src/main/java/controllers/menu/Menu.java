@@ -112,7 +112,6 @@ public class Menu {
     public static void ordersMenu() {
         System.out.println("Pick a submenu to continue: ");
         System.out.println("1. Get All Orders");
-        //System.out.println("2. Create New Order");
 
         System.out.println("-----------------");
         System.out.println("Select an option or enter 0 to go back to main menu: ");
