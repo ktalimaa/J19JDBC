@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+
 public class Customer {
 
     static Connection connection = Database.DbConn();       // same fields as in Item class
