@@ -76,7 +76,26 @@ public class Customer {
         cust.setFirstName(firstName);
 
         try {
-            session.merge(cust);          // merge can be used update also
+            session.merge(cust);          // merge can be used update also, difference that update can lose data, merge doesn't
+            session.flush();
+            trans.commit();
+        } catch (Exception e) {
+            trans.rollback();
+            e.printStackTrace();
+        }
+    }
+
+    public static void deleteCustomer(int customerId) {
+        // NOTE: always recommended to use transactions when deleting something,
+        // so in the event that you are carrying out other operations
+        // which you want to occur simultaneously with the deletion
+        // if there's error the entire operation is rolled back and nothing is deleted.
+        session.beginTransaction();
+        Transaction trans = session.getTransaction();
+        Customer cust = session.get(Customer.class, customerId);        // use scanner to ask user, which fields to update
+
+        try {
+            session.delete(cust);
             session.flush();
             trans.commit();
         } catch (Exception e) {

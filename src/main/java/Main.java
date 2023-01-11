@@ -1,8 +1,6 @@
 import db.Database;
 import entities.Customer;
-import entities.Order;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 public class Main {
     public static void main(String[] args) {
@@ -19,7 +17,8 @@ public class Main {
         //Customer minaj = new Customer();
         // minaj.setFirstName("Billy");
 
-        Customer.updateCustomer("David", 4);
+        // Customer.updateCustomer("David", 4);
+        Customer.deleteCustomer(3);
         Customer.listCustomers();
 
         // System.out.println(minaj);
