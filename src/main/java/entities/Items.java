@@ -23,11 +23,17 @@ public class Items {
     @Column (name = "description")
     private String description;
 
-    public Items (String name, String description) {
+    @Column (name = "gty_in_stock")
+    private int qty;
+
+    @Column (name = "price")
+    private float price;
+
+    public Items(int id, String name, String description, int qty, float price) {
+        this.id = id;
         this.name = name;
         this.description = description;
+        this.qty = qty;
+        this.price = price;
     }
-
-
-
 }

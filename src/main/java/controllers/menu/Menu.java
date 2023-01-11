@@ -16,7 +16,7 @@ public class Menu {
         System.out.println("Pick a submenu to continue: ");
         System.out.println("1. Items");
         System.out.println("2. Customer");
-        System.out.println("3. Sales");
+        System.out.println("3. Sale");
         System.out.println("4. Orders");
 
         System.out.println("-----------------");
@@ -134,8 +134,8 @@ public class Menu {
 
     public static void salesMenu() {
         System.out.println("Pick a submenu to continue: ");
-        System.out.println("1. Get Sales Total");
-        System.out.println("2. Create New Sales and Orders");
+        System.out.println("1. Get Sale Total");
+        System.out.println("2. Create New Sale and Orders");
 
         System.out.println("-----------------");
         System.out.println("Select an option or enter 0 to go back to main menu: ");

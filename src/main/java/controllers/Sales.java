@@ -53,7 +53,7 @@ public class Sales {
         }
     }
 
-    // CREATE a method on the Sales class that takes in following input from the user:
+    // CREATE a method on the Sale class that takes in following input from the user:
     // item_id
     // qty_purchased
 
@@ -113,7 +113,7 @@ public class Sales {
     }
 
 
-    // Exercise: Complete Sales class by adding following methods:
+    // Exercise: Complete Sale class by adding following methods:
     // Add a method called createNewSale:
     // - collate the total price of all the items bought using the handleItemsTotal method
     // and log the total to the console.
